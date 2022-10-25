@@ -113,9 +113,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<Object> createUAO(CustomerAndOrderCreateForm createCustomerAndOrderForm) {
 
-		Object object = userRepository.getUserHasOrderStatusNotActiveByEmail(createCustomerAndOrderForm.getEmail());
+		User user1 = userRepository.getUserHasOrderStatusNotActiveByEmail(createCustomerAndOrderForm.getEmail());
+		System.out.println("===============> "+user1.getEmail());
 		
-		if (this.userRepository.existsByEmail(createCustomerAndOrderForm.getEmail())  ) {
+		if (!this.userRepository.existsByEmail(createCustomerAndOrderForm.getEmail()) ) {
 			User user = new User();
 			user.setEmail(createCustomerAndOrderForm.getEmail());
 			user.setPhone(createCustomerAndOrderForm.getPhone());
