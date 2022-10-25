@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,10 @@ import com.vti.services.UserService;
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Autowired
 	private UserRepository userRepositoryy;
 	@Autowired
@@ -114,17 +119,19 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<Object> createUAO(CustomerAndOrderCreateForm createCustomerAndOrderForm) {
 
 		int test = userRepositoryy.getUserHasOrderStatusNotActiveByEmail(createCustomerAndOrderForm.getEmail());
-		User user = null;
+		User user = this.userRepositoryy.findByEmail(createCustomerAndOrderForm.getEmail());
 		if (this.userRepositoryy.existsByEmail(createCustomerAndOrderForm.getEmail())) { // neu ton tai email trong db
 			if (test < 1) {// and ko co don hang active
 				// update tai khoan hien tai
-				user = this.userRepositoryy.findByEmail(createCustomerAndOrderForm.getEmail());
-				user.setEmail(createCustomerAndOrderForm.getEmail());
-				user.setPhone(createCustomerAndOrderForm.getPhone());
-				user.setFullName(createCustomerAndOrderForm.getFullName());
-				user.setPassword(passwordEncoder.encode(createCustomerAndOrderForm.getPassword()));
-				user.setRole(createCustomerAndOrderForm.getRole());
-				user.setStatus(UserStatus.NOT_ACTIVE);
+				User newUser = new User();
+				newUser.setId(user.getId());
+				newUser.setEmail(createCustomerAndOrderForm.getEmail());
+				newUser.setPhone(createCustomerAndOrderForm.getPhone());
+				newUser.setFullName(createCustomerAndOrderForm.getFullName());
+				newUser.setPassword(passwordEncoder.encode(createCustomerAndOrderForm.getPassword()));
+				newUser.setRole(createCustomerAndOrderForm.getRole());
+				newUser.setStatus(UserStatus.NOT_ACTIVE);
+				modelMapper.map(newUser, user);
 				user = userRepositoryy.save(user);
 			} else { // co don hang active
 				return new ResponseEntity<>("Error! Tai khoan dang ton tai don hang", HttpStatus.OK);
