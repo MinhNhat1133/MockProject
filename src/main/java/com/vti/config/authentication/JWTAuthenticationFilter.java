@@ -52,7 +52,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     		Authentication authResult) throws IOException, ServletException {
     	// infor user
     	User user = userService.findUserByEmailNotActive(authResult.getName());
-    	System.out.println(user);
-//        JWTTokenService.addJWTTokenAndUserInfoToBody(response, user);
+    	
+        JWTTokenService.addJWTTokenAndUserInfoToBody(response, user);
     }
 }

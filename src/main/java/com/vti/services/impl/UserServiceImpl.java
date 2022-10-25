@@ -114,46 +114,58 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<Object> createUAO(CustomerAndOrderCreateForm createCustomerAndOrderForm) {
 
 		int test = userRepositoryy.getUserHasOrderStatusNotActiveByEmail(createCustomerAndOrderForm.getEmail());
-		System.out.println("===============> "+ test);
-		
-		if (!this.userRepositoryy.existsByEmail(createCustomerAndOrderForm.getEmail()) || test < 1 ) {
-			User user = new User();
+		User user = null;
+		if (this.userRepositoryy.existsByEmail(createCustomerAndOrderForm.getEmail())) { // neu ton tai email trong db
+			if (test < 1) {// and ko co don hang active
+				// update tai khoan hien tai
+				user = this.userRepositoryy.findByEmail(createCustomerAndOrderForm.getEmail());
+				user.setEmail(createCustomerAndOrderForm.getEmail());
+				user.setPhone(createCustomerAndOrderForm.getPhone());
+				user.setFullName(createCustomerAndOrderForm.getFullName());
+				user.setPassword(passwordEncoder.encode(createCustomerAndOrderForm.getPassword()));
+				user.setRole(createCustomerAndOrderForm.getRole());
+				user.setStatus(UserStatus.NOT_ACTIVE);
+				user = userRepositoryy.save(user);
+			} else { // co don hang active
+				return new ResponseEntity<>("Error! Tai khoan dang ton tai don hang", HttpStatus.OK);
+
+			}
+
+		} else { // email chua ton tai trong db
+			user = new User();
 			user.setEmail(createCustomerAndOrderForm.getEmail());
 			user.setPhone(createCustomerAndOrderForm.getPhone());
 			user.setFullName(createCustomerAndOrderForm.getFullName());
 			user.setPassword(passwordEncoder.encode(createCustomerAndOrderForm.getPassword()));
 			user.setRole(createCustomerAndOrderForm.getRole());
 			user = userRepositoryy.save(user);
-			// create new user registration token
-			createNewRegistrationUserToken(user);
-			
-			System.out.println(user);
-			
+		}
+
+		// create new user registration token
+		createNewRegistrationUserToken(user);
+
+		System.out.println(user);
+
 //			user = userRepositoryy.findUserByEmailNotActive(user.getEmail());
 //
 //			// send email to confirm
 
+		if (userRepositoryy.existsById(user.getId())) {
 
-			if (userRepositoryy.existsById(user.getId())) {
-				
-				
-				Order order = new Order();
-				order.setCurrentCity(createCustomerAndOrderForm.getCurrentCity());
-				order.setNewCity(createCustomerAndOrderForm.getNewCity());
-				order.setMovingDate(createCustomerAndOrderForm.getMovingDate());
-				Plan plan = planRepository.findById(createCustomerAndOrderForm.getPlanId()).get();
-				order.setPlan(plan);
-				order.setCustomer(user);
-				order.setIsHasApartmentAlready(createCustomerAndOrderForm.getIsHasApartmentAlready());
-				order.setDistance(createCustomerAndOrderForm.getDistance());
-				order.setStatus("0");
-				order = orderRepository.save(order);
-			}
-			sendConfirmUserRegistrationViaEmail(user.getEmail());
-			return new ResponseEntity<>("We have sent an email. Please check email to active account!", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("Erro!", HttpStatus.OK);
+			Order order = new Order();
+			order.setCurrentCity(createCustomerAndOrderForm.getCurrentCity());
+			order.setNewCity(createCustomerAndOrderForm.getNewCity());
+			order.setMovingDate(createCustomerAndOrderForm.getMovingDate());
+			Plan plan = planRepository.findById(createCustomerAndOrderForm.getPlanId()).get();
+			order.setPlan(plan);
+			order.setCustomer(user);
+			order.setIsHasApartmentAlready(createCustomerAndOrderForm.getIsHasApartmentAlready());
+			order.setDistance(createCustomerAndOrderForm.getDistance());
+			order.setStatus("0");
+			order = orderRepository.save(order);
 		}
+		sendConfirmUserRegistrationViaEmail(user.getEmail());
+		return new ResponseEntity<>("We have sent an email. Please check email to active account!", HttpStatus.OK);
 	}
 
 	@Override
