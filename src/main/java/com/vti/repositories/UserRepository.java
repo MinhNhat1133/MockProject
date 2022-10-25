@@ -22,7 +22,11 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	@Query(value="SELECT u.* FROM users u JOIN orders o ON u.id = o.customer_id WHERE u.email = :email AND o.status < 100 ",nativeQuery = true)
 	User findUserByEmail4LogIn(@Param("email") String email);
 
-	@Query(value="SELECT u.* FROM users u JOIN orders o ON u.id = o.customer_id WHERE u.email = :email AND o.status = 100",nativeQuery = true)
-	User getUserHasOrderStatusNotActiveByEmail(@Param("email") String email);
+	@Query(value="SELECT count(*) FROM users u JOIN orders o ON u.id = o.customer_id WHERE u.email = :email AND o.status < 100",nativeQuery = true)
+	int getUserHasOrderStatusNotActiveByEmail(@Param("email") String email);
+
+
+	@Query(value="SELECT u.* FROM users u JOIN orders o ON u.id = o.customer_id WHERE u.email = :email AND o.status < 100 ",nativeQuery = true)
+	User findUserByEmailNotActive(@Param("email") String email);
 
 }

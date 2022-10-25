@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public void sendRegistrationUserConfirm(String email) {
 
-		User user = userService.findUserByEmail(email);
+		User user = userService.findUserByEmailNotActive(email);
 		String token = registrationUserTokenRepository.findByUserId(user.getId());
 
 		String confirmationUrl = "http://localhost:8080/api/v1/users/activeUser?token=" + token;

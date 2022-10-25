@@ -22,4 +22,6 @@ public interface UserService extends UserDetailsService {
 
 	User findUserByEmail4LogIn(String name);
 
+	User findUserByEmailNotActive(String email);
+
 }

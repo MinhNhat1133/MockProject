@@ -32,7 +32,7 @@ import com.vti.services.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository userRepositoryy;
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 	@Autowired
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(username);
+		User user = userRepositoryy.findByEmail(username);
 
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		// create user
-		userRepository.save(user);
+		userRepositoryy.save(user);
 
 		// create new user registration token
 		createNewRegistrationUserToken(user);
@@ -88,12 +88,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findUserByUserName(String name) {
-		return userRepository.findByEmail(name);
+		return userRepositoryy.findByEmail(name);
 	}
 
 	@Override
 	public User findUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+		return userRepositoryy.findByEmail(email);
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 		// active user
 		User user = registrationUserToken.getUser();
 		user.setStatus(UserStatus.ACTIVE);
-		userRepository.save(user);
+		userRepositoryy.save(user);
 
 		// remove Registration User Token
 		registrationUserTokenRepository.deleteById(registrationUserToken.getId());
@@ -113,24 +113,30 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<Object> createUAO(CustomerAndOrderCreateForm createCustomerAndOrderForm) {
 
-		User user1 = userRepository.getUserHasOrderStatusNotActiveByEmail(createCustomerAndOrderForm.getEmail());
-		System.out.println("===============> "+user1.getEmail());
+		int test = userRepositoryy.getUserHasOrderStatusNotActiveByEmail(createCustomerAndOrderForm.getEmail());
+		System.out.println("===============> "+ test);
 		
-		if (!this.userRepository.existsByEmail(createCustomerAndOrderForm.getEmail()) ) {
+		if (!this.userRepositoryy.existsByEmail(createCustomerAndOrderForm.getEmail()) || test < 1 ) {
 			User user = new User();
 			user.setEmail(createCustomerAndOrderForm.getEmail());
 			user.setPhone(createCustomerAndOrderForm.getPhone());
 			user.setFullName(createCustomerAndOrderForm.getFullName());
 			user.setPassword(passwordEncoder.encode(createCustomerAndOrderForm.getPassword()));
 			user.setRole(createCustomerAndOrderForm.getRole());
-			user = userRepository.save(user);
+			user = userRepositoryy.save(user);
 			// create new user registration token
 			createNewRegistrationUserToken(user);
+			
+			System.out.println(user);
+			
+//			user = userRepositoryy.findUserByEmailNotActive(user.getEmail());
+//
+//			// send email to confirm
 
-			// send email to confirm
-			sendConfirmUserRegistrationViaEmail(user.getEmail());
 
-			if (userRepository.existsById(user.getId())) {
+			if (userRepositoryy.existsById(user.getId())) {
+				
+				
 				Order order = new Order();
 				order.setCurrentCity(createCustomerAndOrderForm.getCurrentCity());
 				order.setNewCity(createCustomerAndOrderForm.getNewCity());
@@ -143,6 +149,7 @@ public class UserServiceImpl implements UserService {
 				order.setStatus("0");
 				order = orderRepository.save(order);
 			}
+			sendConfirmUserRegistrationViaEmail(user.getEmail());
 			return new ResponseEntity<>("We have sent an email. Please check email to active account!", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("Erro!", HttpStatus.OK);
@@ -152,6 +159,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserByEmail4LogIn(String email) {
 //		return null;
-		return this.userRepository.findUserByEmail4LogIn(email);
+		return this.userRepositoryy.findUserByEmail4LogIn(email);
+	}
+
+	@Override
+	public User findUserByEmailNotActive(String email) {
+		// TODO Auto-generated method stub
+		return this.userRepositoryy.findUserByEmailNotActive(email);
 	}
 }

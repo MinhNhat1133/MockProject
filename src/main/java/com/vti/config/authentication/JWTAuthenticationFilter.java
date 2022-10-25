@@ -51,8 +51,8 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     		FilterChain chain, 
     		Authentication authResult) throws IOException, ServletException {
     	// infor user
-    	User user = userService.findUserByEmail4LogIn(authResult.getName());
-    	
-        JWTTokenService.addJWTTokenAndUserInfoToBody(response, user);
+    	User user = userService.findUserByEmailNotActive(authResult.getName());
+    	System.out.println(user);
+//        JWTTokenService.addJWTTokenAndUserInfoToBody(response, user);
     }
 }
