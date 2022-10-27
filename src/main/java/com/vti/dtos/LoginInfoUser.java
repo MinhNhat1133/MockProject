@@ -9,6 +9,7 @@ public class LoginInfoUser {
 
 	private String token;
 
+	private Integer id;
 
 	private String email;
 	private String phone;
@@ -29,5 +30,16 @@ public class LoginInfoUser {
 		this.fullName = fullName;
 		this.role = role;
 		this.status = status;
+	}
+
+	public LoginInfoUser(int id, String token, String email, String fullName, String role, String phone,
+						 String status) {
+		this.token = token;
+		this.email = email;
+		this.phone = phone;
+		this.fullName = fullName;
+		this.role = role;
+		this.status = status;
+		this.id = id;
 	}
 }
