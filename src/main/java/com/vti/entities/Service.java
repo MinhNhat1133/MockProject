@@ -27,8 +27,8 @@ public class Service implements Serializable{
 	private String serviceContent;
 
 	@Column(name = "service_weight")
-	private String serviceWeight;
+	private int serviceWeight;
 	
 	@Column(name = "required")
-	private String required;
+	private int required;
 }

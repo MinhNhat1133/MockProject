@@ -15,4 +15,10 @@ public class OrderServiceImpl implements OrderService {
     public Order findActiveOrderByCustomerId(int id) {
         return orderRepository.findActiveOrderByCustomerId(id);
     }
+
+//    @Override
+//    public void updatePaymentByOrderId(int id, String paymentStatus) {
+//        orderRepository.updatePaymentByOrderId(id, paymentStatus);
+//    }
+
 }

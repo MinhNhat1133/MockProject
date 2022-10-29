@@ -29,4 +29,9 @@ public class OrderController {
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
         return new ResponseEntity<>(orderDTO, HttpStatus.OK);
     }
+
+//    @PostMapping()
+//    public void updatePaymentByOrderId(int id, String paymentStatus) {
+//
+//    }
 }
