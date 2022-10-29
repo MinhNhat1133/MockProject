@@ -1,6 +1,9 @@
 package com.vti.repositories;
 
 import com.vti.entities.Order;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,6 +32,14 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
 	@Query(value="SELECT u.* FROM users u JOIN orders o ON u.id = o.customer_id WHERE u.email = :email AND o.status < 100 ",nativeQuery = true)
 	User findUserByEmailNotActive(@Param("email") String email);
+
+	void deleteByIdIn(List<Short> ids);
+
+
+
+	
+
+	
 
 
 }

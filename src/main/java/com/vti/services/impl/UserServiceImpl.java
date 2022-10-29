@@ -1,8 +1,7 @@
 package com.vti.services.impl;
 
+import java.util.List;
 import java.util.UUID;
-
-import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,5 +184,30 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmailNotActive(String email) {
 		// TODO Auto-generated method stub
 		return this.userRepositoryy.findUserByEmailNotActive(email);
+	}
+	
+	@Override
+	public List<User> getListUser() {
+		return userRepositoryy.findAll();
+	}
+	
+	@Override
+	public void creatingUser(User user) {
+		userRepositoryy.save(user);
+	}
+	
+	@Override
+	public void updateUser(User user) {
+		userRepositoryy.save(user);
+	}
+	
+	@Override
+	public void deleteUser(int id) {
+		userRepositoryy.deleteById(id);
+	}
+	
+	@Transactional
+	public void deleteUsers(List<Short> ids) {
+		userRepositoryy.deleteByIdIn(ids);
 	}
 }
