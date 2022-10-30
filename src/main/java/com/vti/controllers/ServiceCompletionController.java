@@ -33,6 +33,5 @@ public class ServiceCompletionController {
         }.getType());
 
         return new ResponseEntity<>(servicesDTO, HttpStatus.OK);
-
     }
 }

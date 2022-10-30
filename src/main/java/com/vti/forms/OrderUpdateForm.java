@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -16,9 +17,9 @@ public class OrderUpdateForm {
 
     private String newCity;
 
-    private Date movingDate;
+    private LocalDate movingDate;
 
-    private String isHasApartmentAlready;
+    private int isHasApartmentAlready;
 
     private int distance;
 
@@ -26,7 +27,7 @@ public class OrderUpdateForm {
 
     private String payment_details;
 
-    private Date payment_date;
+    private LocalDate payment_date;
 
     private int status;
 }

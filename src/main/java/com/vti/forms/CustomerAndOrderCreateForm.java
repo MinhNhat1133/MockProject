@@ -1,5 +1,6 @@
 package com.vti.forms;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.vti.enums.Role;
@@ -17,8 +18,8 @@ public class CustomerAndOrderCreateForm {
 	private Role role;
 	private String currentCity;
 	private String newCity;
-	private Date movingDate;
+	private LocalDate movingDate;
 	private int planId;
-	private String isHasApartmentAlready;
+	private int isHasApartmentAlready;
 	private int distance;
 }

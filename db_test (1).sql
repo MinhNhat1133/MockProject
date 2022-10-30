@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS orders (
     customer_id		INT UNSIGNED NOT NULL,
     is_has_apartment_already TINYINT DEFAULT 0, -- 0 : khach hang CHUA chon duoc nha
     distance		SMALLINT UNSIGNED NOT NULL , -- Don vi tinh la km
-    payment_status	ENUM('UNPAID','PAID')  DEFAULT 'UNPAID',
+    payment_status	TINYINT DEFAULT 0,
     payment_details	VARCHAR(255) ,  -- Phuong thuc thanh toan cua khach hang
     payment_date	DATE ,			
 	`status`		TINYINT UNSIGNED DEFAULT 0 	, -- trang thai cua don hang tinh theo % 
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS services (
 	PRIMARY KEY (id), 
 	id 				TINYINT UNSIGNED AUTO_INCREMENT,
     service_content	VARCHAR(250) NOT NULL,
-    service_weight	TINYINT UNSIGNED NOT NULL  , 
+    service_weight	TINYINT UNSIGNED NOT NULL,
+    service_time TINYINT UNSIGNED NOT NULL, -- (unit: days -- thoi gian can thiet de thuc hien dich vu)
     required		TINYINT DEFAULT 0  -- 1 : cho nhung khach hang CHUA chon duoc nha, 
 );
 
@@ -103,17 +104,17 @@ insert into plans (plan_name, price) values ('GOI B', 2500);
 insert into plans (plan_name, price) values ('GOI C', 100000);
 
 -- Insert in to services:
-insert into services (service_content, service_weight, required) values ('Tìm nhà', 10, 0);
-insert into services (service_content, service_weight, required) values ('Ký hợp đồng thuê nhà', 2, 0);
-insert into services (service_content, service_weight, required) values ('Cắt hợp đồng nhà', 3, 1);
-insert into services (service_content, service_weight, required) values ('Cắt hợp đồng điện, nước, ga, internet', 4, 1);
-insert into services (service_content, service_weight, required) values ('Thông báo chuyển ra khỏi tỉnh/thành phố 
-hiện tại ', 5, 1);
-insert into services (service_content, service_weight, required) values ('Thủ tục yêu cầu chuyển đồ đến địa chỉ 
-mới', 6, 1);
-insert into services (service_content, service_weight, required) values ('Thủ tục thay đổi địa chỉ ', 7, 1);
-insert into services (service_content, service_weight, required) values ('Thủ tục vứt những đồ không dùng nữa: ', 8, 1);
-insert into services (service_content, service_weight, required) values ('Dọn dẹp nhà cửa, Chuyển đồ', 9, 1);
+insert into services (service_content, service_weight, required, service_time) values ('Tìm nhà', 10, 0, 50);
+insert into services (service_content, service_weight, required, service_time) values ('Ký hợp đồng thuê nhà', 2, 0, 15);
+insert into services (service_content, service_weight, required, service_time) values ('Cắt hợp đồng nhà', 3, 1, 35);
+insert into services (service_content, service_weight, required, service_time) values ('Cắt hợp đồng điện, nước, ga, internet', 4, 1, 10);
+insert into services (service_content, service_weight, required, service_time) values ('Thông báo chuyển ra khỏi tỉnh/thành phố 
+hiện tại ', 5, 1, 7);
+insert into services (service_content, service_weight, required, service_time) values ('Thủ tục yêu cầu chuyển đồ đến địa chỉ 
+mới', 6, 1, 10);
+insert into services (service_content, service_weight, required, service_time) values ('Thủ tục thay đổi địa chỉ ', 7, 1, 7);
+insert into services (service_content, service_weight, required, service_time) values ('Thủ tục vứt những đồ không dùng nữa: ', 8, 1, 20);
+insert into services (service_content, service_weight, required, service_time) values ('Dọn dẹp nhà cửa, Chuyển đồ', 9, 1, 30);
 
 
 insert into plan_services (plan_id, service_id) values (1, 1);

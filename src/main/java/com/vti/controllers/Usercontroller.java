@@ -49,7 +49,7 @@ public class Usercontroller {
 		// active user
 		userService.activeUser(token);
 		RedirectView redirectView = new RedirectView();
-		redirectView.setUrl("https://fullstackdeveloper.guru/");
+		redirectView.setUrl("http://localhost:3000/sign-in");
 
 		return redirectView;
 	}

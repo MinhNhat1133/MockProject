@@ -29,7 +29,7 @@ public class ServiceCompletionProgress implements Serializable {
     @Column(name = "proposed_date")
     private LocalDate proposedDate;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "default 0")
     private int status;
 
     @Column(name = "completion_date")

@@ -28,6 +28,9 @@ public class Service implements Serializable{
 
 	@Column(name = "service_weight")
 	private int serviceWeight;
+
+	@Column(name = "service_time")
+	private int serviceTime;
 	
 	@Column(name = "required")
 	private int required;

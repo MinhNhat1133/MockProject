@@ -1,6 +1,7 @@
 package com.vti.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Order implements Serializable{
 	private String newCity;
 	
 	@Column(name = "moving_date")
-	private Date movingDate;
+	private LocalDate movingDate;
 
 	@ManyToOne
 	@JoinColumn(name="plan_id")
@@ -50,7 +51,7 @@ public class Order implements Serializable{
 	
 	
 	@Column(name = "is_has_apartment_already")
-	private String isHasApartmentAlready;
+	private int isHasApartmentAlready;
 	
 	@Column(name = "distance")
 	private int distance;
@@ -62,15 +63,15 @@ public class Order implements Serializable{
 	private String payment_details;
 	
 	@Column(name = "payment_date")
-	private Date payment_date;
+	private LocalDate payment_date;
 	
 	@Column(name = "status", columnDefinition = "default 0")
 	private int status;
 	
 	@Column(name = "created_date")
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	@CreationTimestamp
-	private Date created_date;
+	private LocalDate created_date;
 	
 	
 }
