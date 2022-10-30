@@ -9,8 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.vti.entities.Order;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpecificationExecutor<Order> {
@@ -18,10 +17,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
     @Query(value="SELECT o.* FROM orders o WHERE o.customer_id = :id AND o.status < 100 ",nativeQuery = true)
     Order findActiveOrderByCustomerId(@Param("id") int id);
 
-//    @Transactional
-//    @Modifying
-//    @Query(value="UPDATE orders SET payment_status = :paymentstatus WHERE id= :id; ",nativeQuery = true)
-//    void updatePaymentByOrderId(@Param("id") int id, @Param("payment-status") String paymentStatus);
+    @Modifying
+    @Query("UPDATE Order o SET o.payment_status = :paymentStatus WHERE o.id= :id")
+    void updatePaymentByOrderId(@Param("id") int id, @Param("paymentStatus") int paymentStatus);
 
 
 

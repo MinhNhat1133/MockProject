@@ -25,7 +25,7 @@ public class ServiceCompletionController {
     private ModelMapper modelMapper;
 
     @GetMapping()
-    public ResponseEntity<?> getActiveOrderByCustomerId(@RequestParam int orderId) {
+    public ResponseEntity<?> getServicesByOrderId(@RequestParam int orderId) {
         List<ServiceCompletionProgress> services = serviceCompletionRepository.findServicesByOrderId(orderId);
 
         List<ServiceCompletionProgressDTO> servicesDTO =

@@ -55,8 +55,8 @@ public class Order implements Serializable{
 	@Column(name = "distance")
 	private int distance;
 	
-	@Column(name = "payment_status")
-	private String payment_status;
+	@Column(name = "payment_status", columnDefinition = "default 0")
+	private int payment_status;
 	
 	@Column(name = "payment_details")
 	private String payment_details;
@@ -64,8 +64,8 @@ public class Order implements Serializable{
 	@Column(name = "payment_date")
 	private Date payment_date;
 	
-	@Column(name = "status")
-	private String status;
+	@Column(name = "status", columnDefinition = "default 0")
+	private int status;
 	
 	@Column(name = "created_date")
 	@Temporal(TemporalType.DATE)

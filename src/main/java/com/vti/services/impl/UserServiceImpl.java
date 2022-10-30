@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
 			order.setCustomer(user);
 			order.setIsHasApartmentAlready(createCustomerAndOrderForm.getIsHasApartmentAlready());
 			order.setDistance(createCustomerAndOrderForm.getDistance());
-			order.setStatus("0");
+			order.setStatus(0);
 			order = orderRepository.save(order);
 		}
 		sendConfirmUserRegistrationViaEmail(user.getEmail());

@@ -37,7 +37,7 @@ public class UserDTO {
         private User customer;
         private String isHasApartmentAlready;
         private int distance;
-        private String payment_status;
+        private int payment_status;
         private String payment_details;
         private Date payment_date;
         private String status;

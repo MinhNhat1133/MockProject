@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.forms.CustomerAndOrderCreateForm;
 import com.vti.services.UserService;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @CrossOrigin("*")
@@ -33,12 +34,23 @@ public class Usercontroller {
 //		return new ResponseEntity<>("We have sent an email. Please check email to active account!", HttpStatus.OK);
 	}
 	
+//	@GetMapping("/activeUser")
+//	// validate: check exists, check not expired
+//	public ResponseEntity<?> activeUserViaEmail(@RequestParam String token) {
+//		// active user
+//		userService.activeUser(token);
+//
+//		return new ResponseEntity<>("Active success!", HttpStatus.OK);
+//	}
+
 	@GetMapping("/activeUser")
 	// validate: check exists, check not expired
-	public ResponseEntity<?> activeUserViaEmail(@RequestParam String token) {
+	public RedirectView activeUserViaEmail(@RequestParam String token) {
 		// active user
 		userService.activeUser(token);
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl("https://fullstackdeveloper.guru/");
 
-		return new ResponseEntity<>("Active success!", HttpStatus.OK);
+		return redirectView;
 	}
 }

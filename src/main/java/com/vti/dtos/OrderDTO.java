@@ -31,7 +31,7 @@ public class OrderDTO {
 
     private int distance;
 
-    private String payment_status;
+    private int payment_status;
 
     private String payment_details;
 
