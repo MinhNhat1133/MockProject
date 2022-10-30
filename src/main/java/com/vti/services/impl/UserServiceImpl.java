@@ -211,4 +211,29 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return this.userRepositoryy.findUserByEmailNotActive(email);
 	}
+
+	@Override
+	public List<User> getListUser() {
+		return userRepositoryy.findAll();
+	}
+
+	@Override
+	public void creatingUser(User user) {
+		userRepositoryy.save(user);
+	}
+
+	@Override
+	public void updateUser(User user) {
+		userRepositoryy.save(user);
+	}
+
+	@Override
+	public void deleteUser(int id) {
+		userRepositoryy.deleteById(id);
+	}
+
+	@Override
+	public void deleteUsers(List<Short> ids) {
+		userRepositoryy.deleteByIdIn(ids);
+	}
 }
