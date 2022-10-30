@@ -157,7 +157,6 @@ public class UserServiceImpl implements UserService {
 		// create new user registration token
 		createNewRegistrationUserToken(user);
 
-		System.out.println(user);
 
 //			user = userRepositoryy.findUserByEmailNotActive(user.getEmail());
 //

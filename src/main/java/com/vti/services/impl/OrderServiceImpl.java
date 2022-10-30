@@ -9,35 +9,58 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 import javax.transaction.Transactional;
 
 @Transactional
 @Service
 public class OrderServiceImpl implements OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+	@Autowired
+	private ModelMapper modelMapper;
 
-    @Override
-    public Order findActiveOrderByCustomerId(int id) {
-        return orderRepository.findActiveOrderByCustomerId(id);
-    }
+	@Override
+	public Order findActiveOrderByCustomerId(int id) {
+		return orderRepository.findActiveOrderByCustomerId(id);
+	}
 
-    @Override
-    public Order getOrderById(int id) {
-        return orderRepository.findById(id).get();
-    }
+	@Override
+	public Order getOrderById(int id) {
+		return orderRepository.findById(Integer.valueOf(id) == null ? 0 : id).get();
+	}
 
-    @Override
-    public void updateOrderById(int id, OrderUpdateForm orderUpdateForm) {
-        Order oldOrder = getOrderById(id);
-        Integer newPaymentStatus = orderUpdateForm.getPaymentStatus();
-        if (newPaymentStatus != null)
-            oldOrder.setPayment_status(orderUpdateForm.getPaymentStatus());
-        orderRepository.save(oldOrder);
-    }
+	@Override
+	public void updateOrderById(int id, OrderUpdateForm orderUpdateForm) {
+		Order oldOrder = getOrderById(id);
+		if (orderUpdateForm.getCurrentCity() != null) {
+			oldOrder.setCurrentCity(orderUpdateForm.getCurrentCity());
+		}
+		if (orderUpdateForm.getNewCity() != null) {
+			oldOrder.setNewCity(orderUpdateForm.getNewCity());
+		}
+		if (orderUpdateForm.getMovingDate() != null) {
+			oldOrder.setMovingDate(orderUpdateForm.getMovingDate());
+		}
+		if (Integer.valueOf(orderUpdateForm.getIsHasApartmentAlready()) != null) {
+			oldOrder.setIsHasApartmentAlready(orderUpdateForm.getIsHasApartmentAlready());
+		}
+		if (Integer.valueOf(orderUpdateForm.getDistance()) != null) {
+			oldOrder.setDistance(orderUpdateForm.getDistance());
+		}
+		if (orderUpdateForm.getPaymentStatus() != null) {
+			oldOrder.setPayment_status(orderUpdateForm.getPaymentStatus());
+			if (orderUpdateForm.getPaymentStatus() == 1) {
+				LocalDate date = LocalDate.now();
+				oldOrder.setPayment_date(date);
+			}
+
+		}
+		orderRepository.save(oldOrder);
+	}
+
 
 //    @Override
 //    public void updatePaymentByOrderId(int id, String paymentStatus) {

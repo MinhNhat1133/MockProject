@@ -32,7 +32,7 @@ public class OrderController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateOrderById(@PathVariable(name = "id") int id, @RequestBody OrderUpdateForm newOrderForm) {
+    public ResponseEntity<?> updateOrderById(@PathVariable(name = "id" , required = true) int id, @RequestBody OrderUpdateForm newOrderForm) {
         orderService.updateOrderById(id, newOrderForm);
         return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
     }
