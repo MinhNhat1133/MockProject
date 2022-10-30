@@ -3,6 +3,7 @@ package com.vti.controllers;
 import com.vti.dtos.OrderDTO;
 import com.vti.entities.Order;
 import com.vti.forms.CustomerAndOrderCreateForm;
+import com.vti.forms.OrderUpdateForm;
 import com.vti.services.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,11 @@ public class OrderController {
         Order order = orderService.findActiveOrderByCustomerId(customerId);
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
         return new ResponseEntity<>(orderDTO, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> updateOrderById(@PathVariable(name = "id") int id, @RequestBody OrderUpdateForm newOrderForm) {
+        orderService.updateOrderById(id, newOrderForm);
+        return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
     }
 }

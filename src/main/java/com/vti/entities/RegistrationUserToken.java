@@ -1,6 +1,7 @@
 package com.vti.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class RegistrationUserToken implements Serializable {
 	@JoinColumn(nullable = false, name = "user_id")
 	private User user;
 
-	@Temporal(TemporalType.TIMESTAMP)
+//	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "`expiryDate`", nullable = false)
 	private Date expiryDate;
 

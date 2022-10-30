@@ -1,5 +1,7 @@
 package com.vti.entities;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,10 +16,10 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "plans")
+@Data
 public class Plan  implements Serializable{
 	private static final long serialVersionUID = -4248211684582510275L;
 	

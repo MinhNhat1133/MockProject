@@ -1,8 +1,13 @@
 package com.vti.services.impl;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
+import com.vti.repositories.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -22,10 +27,6 @@ import com.vti.entities.User;
 import com.vti.enums.UserStatus;
 import com.vti.events.OnSendRegistrationUserConfirmViaEmailEvent;
 import com.vti.forms.CustomerAndOrderCreateForm;
-import com.vti.repositories.OrderRepository;
-import com.vti.repositories.PlanRepository;
-import com.vti.repositories.RegistrationUserTokenRepository;
-import com.vti.repositories.UserRepository;
 import com.vti.services.UserService;
 
 @Transactional
@@ -37,6 +38,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepositoryy;
+
+	@Autowired
+	private ServiceRepository serviceRepository;
+	
+	@Autowired
+	private ServiceCompletionRepository serviceCompletionRepository;
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 	@Autowired
@@ -167,8 +174,27 @@ public class UserServiceImpl implements UserService {
 			order.setCustomer(user);
 			order.setIsHasApartmentAlready(createCustomerAndOrderForm.getIsHasApartmentAlready());
 			order.setDistance(createCustomerAndOrderForm.getDistance());
-			order.setStatus("0");
+			order.setStatus(0);
 			order = orderRepository.save(order);
+
+			// Fill service_completion_progress
+			List<com.vti.entities.Service> requiredServices = serviceRepository.findAllRequiredServices();
+			List<com.vti.entities.Service> serviceList = serviceRepository.findAll();
+			int orderId = order.getId();
+			LocalDate movingDate = order.getMovingDate();
+
+			if (order.getIsHasApartmentAlready() == 1) {
+
+				for (com.vti.entities.Service service : requiredServices) {
+					serviceCompletionRepository.addOrderAndService(orderId, service.getId(),movingDate.minusDays(service.getServiceTime()));
+				}
+			} else {
+				for (com.vti.entities.Service service : serviceList) {
+					serviceCompletionRepository.addOrderAndService(orderId, service.getId(),movingDate.minusDays(service.getServiceTime()));
+				}
+			}
+
+
 		}
 		sendConfirmUserRegistrationViaEmail(user.getEmail());
 		return new ResponseEntity<>("We have sent an email. Please check email to active account!", HttpStatus.OK);
@@ -184,30 +210,5 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmailNotActive(String email) {
 		// TODO Auto-generated method stub
 		return this.userRepositoryy.findUserByEmailNotActive(email);
-	}
-	
-	@Override
-	public List<User> getListUser() {
-		return userRepositoryy.findAll();
-	}
-	
-	@Override
-	public void creatingUser(User user) {
-		userRepositoryy.save(user);
-	}
-	
-	@Override
-	public void updateUser(User user) {
-		userRepositoryy.save(user);
-	}
-	
-	@Override
-	public void deleteUser(int id) {
-		userRepositoryy.deleteById(id);
-	}
-	
-	@Transactional
-	public void deleteUsers(List<Short> ids) {
-		userRepositoryy.deleteByIdIn(ids);
 	}
 }

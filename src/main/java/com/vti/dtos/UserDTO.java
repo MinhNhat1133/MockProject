@@ -32,16 +32,16 @@ public class UserDTO {
         private int id;
         private String currentCity;
         private String newCity;
-        private Date movingDate;
+        private LocalDate movingDate;
         private Plan plan;
         private User customer;
-        private String isHasApartmentAlready;
+        private int isHasApartmentAlready;
         private int distance;
-        private String payment_status;
+        private int payment_status;
         private String payment_details;
-        private Date payment_date;
+        private LocalDate payment_date;
         private String status;
-        private Date created_date;
+        private LocalDate created_date;
 
     }
 }
