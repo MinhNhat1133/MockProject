@@ -1,9 +1,16 @@
 package com.vti.services.impl;
 
+<<<<<<< Updated upstream
 import java.util.UUID;
 
 import javax.validation.Valid;
 
+=======
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+
+>>>>>>> Stashed changes
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,6 +33,11 @@ import com.vti.forms.CustomerAndOrderCreateForm;
 import com.vti.repositories.OrderRepository;
 import com.vti.repositories.PlanRepository;
 import com.vti.repositories.RegistrationUserTokenRepository;
+<<<<<<< Updated upstream
+=======
+import com.vti.repositories.ServiceCompletionRepository;
+import com.vti.repositories.ServiceRepository;
+>>>>>>> Stashed changes
 import com.vti.repositories.UserRepository;
 import com.vti.services.UserService;
 
@@ -185,5 +197,55 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmailNotActive(String email) {
 		// TODO Auto-generated method stub
 		return this.userRepositoryy.findUserByEmailNotActive(email);
+	}
+
+	@Override
+	public List<User> getListUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void creatingUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUsers(List<Short> ids) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<Service> getListService() {
+		return null;
+	}
+	
+	@Override
+	public void creatingService(com.vti.entities.Service service) {
+		
+	}
+	
+	@Override
+	public void updateService(com.vti.entities.Service service) {
+		
+	}
+	
+	@Override
+	public void deleteService(int id) {
+		
 	}
 }

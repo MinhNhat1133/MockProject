@@ -24,4 +24,33 @@ public interface UserService extends UserDetailsService {
 
 	User findUserByEmailNotActive(String email);
 
+<<<<<<< Updated upstream
+=======
+	public List<User> getListUser();
+
+	void creatingUser(User user);
+
+	void updateUser(User user);
+
+	void deleteUser(int id);
+
+	void deleteUsers(List<Short> ids);
+
+	public List<Service> getListService();
+
+	void creatingService(com.vti.entities.Service service);
+
+	void updateService(com.vti.entities.Service service);
+
+	void deleteService(int id);
+
+	
+
+	
+
+	
+
+	
+
+>>>>>>> Stashed changes
 }
