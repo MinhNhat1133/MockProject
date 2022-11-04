@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
 				modelMapper.map(newUser, user);
 				user = userRepositoryy.save(user);
 			} else { // co don hang active
-				return new ResponseEntity<>("Error! Tai khoan dang ton tai don hang", HttpStatus.OK);
+				return new ResponseEntity<>("Error! Tai khoan dang ton tai don hang", HttpStatus.BAD_REQUEST);
 
 			}
 

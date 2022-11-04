@@ -48,6 +48,6 @@ public class RegistrationUserToken implements Serializable {
 		this.user = user;
 
 		// 1h
-		expiryDate = new Date(System.currentTimeMillis() + 360000);
+		expiryDate = new Date(System.currentTimeMillis() + 60000);
 	}
 }
